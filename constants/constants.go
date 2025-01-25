@@ -9,6 +9,7 @@ const (
 // These represent job endpoints URL
 const (
 	BASE_JOB_URL            = "/api/jobs"
+	BASE_PLAYBOOK_URL	   = "/api/playbook"
 	SPECIFIC_JOB_URL        = BASE_JOB_URL + "/%d"
 	DOWNLOAD_SAMPLE_JOB_URL = SPECIFIC_JOB_URL + "/download_sample"
 	KILL_JOB_URL            = SPECIFIC_JOB_URL + "/kill"
@@ -33,8 +34,10 @@ const (
 // These represent analyze endpoints URL
 const (
 	ANALYZE_OBSERVABLE_URL           = "/api/analyze_observable"
+	ANALYZE_OBSERVABLE_PLAYBOOK_URL  = "/api/playbook/analyze_multiple_observables"
 	ANALYZE_MULTIPLE_OBSERVABLES_URL = "/api/analyze_multiple_observables"
 	ANALYZE_FILE_URL                 = "/api/analyze_file"
+	ANALYZE_FILE_PLAYBOOK_URL        = "/api/playbook/analyze_multiple_files"
 	ANALYZE_MULTIPLE_FILES_URL       = "/api/analyze_multiple_files"
 )
 
