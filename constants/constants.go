@@ -9,7 +9,6 @@ const (
 // These represent job endpoints URL
 const (
 	BASE_JOB_URL            = "/api/jobs"
-	BASE_PLAYBOOK_URL	   = "/api/playbook"
 	SPECIFIC_JOB_URL        = BASE_JOB_URL + "/%d"
 	DOWNLOAD_SAMPLE_JOB_URL = SPECIFIC_JOB_URL + "/download_sample"
 	KILL_JOB_URL            = SPECIFIC_JOB_URL + "/kill"
@@ -17,6 +16,11 @@ const (
 	RETRY_ANALYZER_JOB_URL  = SPECIFIC_JOB_URL + "/analyzer/%s/retry"
 	KILL_CONNECTOR_JOB_URL  = SPECIFIC_JOB_URL + "/connector/%s/kill"
 	RETRY_CONNECTOR_JOB_URL = SPECIFIC_JOB_URL + "/connector/%s/retry"
+)
+
+// These represent playbook endpoints URL
+const(
+	BASE_PLAYBOOK_URL	   = "/api/playbook"
 )
 
 // These represent analyzer endpoints URL
