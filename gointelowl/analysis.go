@@ -245,11 +245,6 @@ func (client *Client) CreateFileAnalysis(ctx context.Context, fileAnalysisParams
 	return &analysisResponse, nil
 }
 
-// CreateFilePlaybookAnalysis lets you analyze a file.
-//
-//	Endpoint: POST /api/analyze_file
-//
-// IntelOwl REST API docs: https://intelowl.readthedocs.io/en/latest/Redoc.html#tag/analyze_file
 func (client *Client) CreateFilePlaybookAnalysis(ctx context.Context, fileAnalysisParams *FilePlaybookAnalysisParams) (*MultipleAnalysisResponse, error) {
 	requestUrl := client.options.Url + constants.ANALYZE_FILE_PLAYBOOK_URL
 	// * Making the multiform data

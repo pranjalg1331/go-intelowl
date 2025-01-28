@@ -49,7 +49,6 @@ func (playbookService *PlaybookService) ListPlaybooks(ctx context.Context) (*Pla
 	if err != nil {
 		return nil, err
 	}
-	// fmt.Print(s/uccessResp.Data)
 	playbookList := PlaybookListResponse{}
 	marshalError := json.Unmarshal(successResp.Data, &playbookList)
 	if marshalError != nil {
@@ -80,11 +79,3 @@ func (playbookService *PlaybookService) GetPlaybookByName(ctx context.Context, p
 	return &playbook, nil
 }
 
-func (playbookService *PlaybookService)  Send_Observable_Analysis_Playbook_Request(
-	ctx context.Context,observableName string,playbookName string, tlp TLP,tags_labels []string,
-	observable_classification string){
-
-		
-
-
-}
