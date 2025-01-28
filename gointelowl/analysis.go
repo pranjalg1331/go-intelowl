@@ -97,7 +97,6 @@ func (client *Client) CreateObservableAnalysis(ctx context.Context, params *Obse
 
 	analysisResponse := AnalysisResponse{}
 	successResp, err := client.newRequest(ctx, request)
-	fmt.Println(string(successResp.Data))
 	if err != nil {
 		return nil, err
 	}
@@ -108,7 +107,7 @@ func (client *Client) CreateObservableAnalysis(ctx context.Context, params *Obse
 
 }
 
-func (client *Client) CreateObservablePlaybookAnalysis(ctx context.Context, params *ObservablePlaybookAnalysisParams) (*AnalysisResponse, error) {
+func (client *Client) CreateObservablePlaybookAnalysis(ctx context.Context, params *ObservablePlaybookAnalysisParams) (*MultipleAnalysisResponse, error) {
 	fmt.Println()
 	requestUrl := client.options.Url + constants.ANALYZE_OBSERVABLE_PLAYBOOK_URL
 	method := "POST"
@@ -124,18 +123,15 @@ func (client *Client) CreateObservablePlaybookAnalysis(ctx context.Context, para
 	jsonData, _ := json.Marshal(data)
 
 	body := bytes.NewBuffer(jsonData)
-	// fmt.Println(body)
 	request, err := client.buildRequest(ctx, method, contentType, body, requestUrl)
 	if err != nil {
 		return nil, err
 	}
-	analysisResponse := AnalysisResponse{}
+	analysisResponse := MultipleAnalysisResponse{}
 	successResp, err := client.newRequest(ctx, request)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(string(successResp.Data))
-	// fmt.Println(successResp)
 	if unmarshalError := json.Unmarshal(successResp.Data, &analysisResponse); unmarshalError != nil {
 		return nil, unmarshalError
 	}
@@ -249,7 +245,12 @@ func (client *Client) CreateFileAnalysis(ctx context.Context, fileAnalysisParams
 	return &analysisResponse, nil
 }
 
-func (client *Client) CreatePlaybookFileAnalysis(ctx context.Context, fileAnalysisParams *FilePlaybookAnalysisParams) (*AnalysisResponse, error) {
+// CreateFilePlaybookAnalysis lets you analyze a file.
+//
+//	Endpoint: POST /api/analyze_file
+//
+// IntelOwl REST API docs: https://intelowl.readthedocs.io/en/latest/Redoc.html#tag/analyze_file
+func (client *Client) CreateFilePlaybookAnalysis(ctx context.Context, fileAnalysisParams *FilePlaybookAnalysisParams) (*MultipleAnalysisResponse, error) {
 	requestUrl := client.options.Url + constants.ANALYZE_FILE_PLAYBOOK_URL
 	// * Making the multiform data
 	body := &bytes.Buffer{}
@@ -259,12 +260,6 @@ func (client *Client) CreatePlaybookFileAnalysis(ctx context.Context, fileAnalys
 	writeTlpError := writer.WriteField("tlp", fileAnalysisParams.Tlp.String())
 	if writeTlpError != nil {
 		return nil, writeTlpError
-	}
-
-	// * Adding the playbook requested
-	writePlaybookError := writer.WriteField("playbook_requested", fileAnalysisParams.PlaybookRequested)
-	if writePlaybookError != nil {
-		return nil, writePlaybookError
 	}
 	// * Adding the runtimeconfiguration field
 	runTimeConfigurationJson, marshalError := json.Marshal(fileAnalysisParams.RuntimeConfiguration)
@@ -277,6 +272,12 @@ func (client *Client) CreatePlaybookFileAnalysis(ctx context.Context, fileAnalys
 		return nil, writeRuntimeError
 	}
 
+	// * Adding the Playbook field
+	writePlaybookError := writer.WriteField("playbook_requested", fileAnalysisParams.PlaybookRequested)
+	if writePlaybookError != nil {
+		return nil, writeTlpError
+	}
+
 	// * Adding the tag labels
 	for _, tagLabel := range fileAnalysisParams.TagsLabels {
 		writeTagLabelError := writer.WriteField("tags_labels", tagLabel)
@@ -286,14 +287,13 @@ func (client *Client) CreatePlaybookFileAnalysis(ctx context.Context, fileAnalys
 	}
 
 	// * Adding the file!
-	filePart, _ := writer.CreateFormFile("file", filepath.Base(fileAnalysisParams.File.Name()))
+	filePart, _ := writer.CreateFormFile("files", filepath.Base(fileAnalysisParams.File.Name()))
 	_, writeFileError := io.Copy(filePart, fileAnalysisParams.File)
 	if writeFileError != nil {
 		writer.Close()
 		return nil, writeFileError
 	}
 	writer.Close()
-
 	//* building the request!
 	contentType := writer.FormDataContentType()
 	method := "POST"
@@ -301,16 +301,20 @@ func (client *Client) CreatePlaybookFileAnalysis(ctx context.Context, fileAnalys
 	if err != nil {
 		return nil, err
 	}
-	analysisResponse := AnalysisResponse{}
+	
+	analysisResponse := MultipleAnalysisResponse{}
 	successResp, err := client.newRequest(ctx, request)
 	if err != nil {
 		return nil, err
 	}
+
 	if unmarshalError := json.Unmarshal(successResp.Data, &analysisResponse); unmarshalError != nil {
 		return nil, unmarshalError
 	}
+
 	return &analysisResponse, nil
 }
+
 
 // CreateMultipleFileAnalysis lets you analyze multiple files.
 //
