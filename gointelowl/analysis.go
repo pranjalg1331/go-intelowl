@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
-	"fmt"
 	"io"
 	"mime/multipart"
 	"os"
@@ -108,7 +107,6 @@ func (client *Client) CreateObservableAnalysis(ctx context.Context, params *Obse
 }
 
 func (client *Client) CreateObservablePlaybookAnalysis(ctx context.Context, params *ObservablePlaybookAnalysisParams) (*MultipleAnalysisResponse, error) {
-	fmt.Println()
 	requestUrl := client.options.Url + constants.ANALYZE_OBSERVABLE_PLAYBOOK_URL
 	method := "POST"
 	contentType := "application/json"
