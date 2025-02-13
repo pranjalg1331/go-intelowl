@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+
 	"github.com/intelowlproject/go-intelowl/constants"
 )
 
@@ -11,14 +12,14 @@ type PlaybookConfig struct {
 	ID                   int64                  `json:"id"`
 	Name                 string                 `json:"name"`
 	Type                 []string               `json:"type"` // ChoiceArrayField equivalent
-	Analyzers            []string       `json:"analyzers"`
-	Connectors           []string       `json:"connectors"`
+	Analyzers            []string               `json:"analyzers"`
+	Connectors           []string               `json:"connectors"`
 	Pivots               []string               `json:"pivots"`
 	RuntimeConfiguration map[string]interface{} `json:"runtime_configuration"`
 	ScanMode             int64                  `json:"scan_mode"`
-	ScanCheckTime        string        `json:"scan_check_time"`
-	Tags                 []string                `json:"tags"`
-	TLP                  string                    `json:"tlp"`
+	ScanCheckTime        string                 `json:"scan_check_time"`
+	Tags                 []string               `json:"tags"`
+	TLP                  string                 `json:"tlp"`
 	Starting             bool                   `json:"starting"`
 	Owner                string                 `json:"owner"` // OwnershipAbstractModel equivalent
 	Disabled             bool                   `json:"disabled"`
@@ -75,4 +76,3 @@ func (playbookService *PlaybookService) GetPlaybookByName(ctx context.Context, p
 
 	return &playbook, nil
 }
-
