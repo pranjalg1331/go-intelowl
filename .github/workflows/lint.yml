@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-go@v4
+      - uses: actions/setup-go@v3
         with:
           go-version: stable
 
@@ -20,10 +20,17 @@ jobs:
       - name: Run goimports
         run: goimports -w .
       
+      - name: Clean Go cache
+        run: go clean -modcache
+        
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:
-          version: latest
-          args: --timeout=5m  
+          version: v1.55.2  
+          args: --timeout=5m
+          skip-cache: true
+          skip-pkg-cache: true
+          skip-build-cache: true
+
       - name: Run go mod tidy
         run: go mod tidy && git diff --exit-code || (echo "Run 'go mod tidy' locally and commit changes." && exit 1)
