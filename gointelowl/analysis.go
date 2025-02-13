@@ -62,12 +62,12 @@ type MultipleFileAnalysisParams struct {
 
 // AnalysisResponse represents a response returned by the API when you analyze an observable or file.
 type AnalysisResponse struct {
-	JobID             int      `json:"job_id"`
-	Status            string   `json:"status"`
-	Warnings          []string `json:"warnings"`
-	AnalyzersRunning  []string `json:"analyzers_running"`
-	ConnectorsRunning []string `json:"connectors_running"`
-	PlaybooksRunning  string `json:"playbook_running"`
+	JobID              int      `json:"job_id"`
+	Status             string   `json:"status"`
+	Warnings           []string `json:"warnings"`
+	AnalyzersRunning   []string `json:"analyzers_running"`
+	ConnectorsRunning  []string `json:"connectors_running"`
+	PlaybooksRunning   string   `json:"playbook_running"`
 	VisualizersRunning []string `json:"visualizers_running"`
 }
 
@@ -294,7 +294,7 @@ func (client *Client) CreateFilePlaybookAnalysis(ctx context.Context, fileAnalys
 	if err != nil {
 		return nil, err
 	}
-	
+
 	analysisResponse := MultipleAnalysisResponse{}
 	successResp, err := client.newRequest(ctx, request)
 	if err != nil {
@@ -307,7 +307,6 @@ func (client *Client) CreateFilePlaybookAnalysis(ctx context.Context, fileAnalys
 
 	return &analysisResponse, nil
 }
-
 
 // CreateMultipleFileAnalysis lets you analyze multiple files.
 //

@@ -19,8 +19,8 @@ const (
 )
 
 // These represent playbook endpoints URL
-const(
-	BASE_PLAYBOOK_URL	   = "/api/playbook"
+const (
+	BASE_PLAYBOOK_URL = "/api/playbook"
 )
 
 // These represent analyzer endpoints URL

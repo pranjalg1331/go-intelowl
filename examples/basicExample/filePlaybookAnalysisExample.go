@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+
 	"github.com/intelowlproject/go-intelowl/gointelowl"
 	"github.com/sirupsen/logrus"
 )
@@ -43,8 +44,8 @@ func FilePlaybookAnalysis() {
 		ConnectorsRequested:  []string{},
 		TagsLabels:           []string{},
 	}
-	
-	file, err := os.Open("exampleFiles/sample.jpeg") 
+
+	file, err := os.Open("exampleFiles/sample.jpeg")
 	if err != nil {
 		fmt.Println("Error opening file:", err)
 		return
@@ -52,12 +53,12 @@ func FilePlaybookAnalysis() {
 	defer file.Close()
 
 	observableAnalysisParams := gointelowl.FilePlaybookAnalysisParams{
-		BasicAnalysisParams:      basicAnalysisParams,
-		PlaybookRequested: "Sample_Static_Analysis",
-		File: file,
+		BasicAnalysisParams: basicAnalysisParams,
+		PlaybookRequested:   "Sample_Static_Analysis",
+		File:                file,
 	}
 
-	analyzerResponse, err := client.CreateFilePlaybookAnalysis(ctx,&observableAnalysisParams)
+	analyzerResponse, err := client.CreateFilePlaybookAnalysis(ctx, &observableAnalysisParams)
 	if err != nil {
 		fmt.Println("err")
 		fmt.Println(err)

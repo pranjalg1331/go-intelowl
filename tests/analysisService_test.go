@@ -62,7 +62,7 @@ func TestCreateObservablePlaybookAnalysis(t *testing.T) {
 	if unmarshalError := json.Unmarshal([]byte(playbookAnalysisJsonString), &playbookAnalysisResponse); unmarshalError != nil {
 		t.Fatalf("Error: %s", unmarshalError)
 	}
-	
+
 	basicAnalysisParams := gointelowl.BasicAnalysisParams{
 		User:                 1,
 		Tlp:                  gointelowl.WHITE,
@@ -72,14 +72,13 @@ func TestCreateObservablePlaybookAnalysis(t *testing.T) {
 		TagsLabels:           []string{},
 	}
 
-
 	testCases := make(map[string]TestData)
 	testCases["simple"] = TestData{
 		Input: gointelowl.ObservablePlaybookAnalysisParams{
 			BasicAnalysisParams:      basicAnalysisParams,
 			ObservableName:           "series9.io",
 			ObservableClassification: "domain",
-			PlaybookRequested: "Dns",
+			PlaybookRequested:        "Dns",
 		},
 		Data:       playbookAnalysisJsonString,
 		StatusCode: http.StatusOK,
@@ -105,7 +104,6 @@ func TestCreateObservablePlaybookAnalysis(t *testing.T) {
 	}
 
 }
-
 
 func TestCreateMultipleObservableAnalysis(t *testing.T) {
 	multiAnalysisJsonString := `{"count":2,"results":[{"job_id":263,"status":"accepted","warnings":[],"analyzers_running":["Classic_DNS","CryptoScamDB_CheckAPI","Darksearch_Query","FireHol_IPList","FileScan_Search","GoogleWebRisk","GreyNoiseCommunity","InQuest_IOCdb","InQuest_REPdb","InQuest_DFI","MalwareBazaar_Google_Observable","Mnemonic_PassiveDNS","Phishstats","Pulsedive_Active_IOC","Robtex_IP_Query","Robtex_Reverse_PDNS_Query","Stratosphere_Blacklist","TalosReputation","ThreatFox","Threatminer_PDNS","Threatminer_Reports_Tagging","TorProject","URLhaus","UrlScan_Search","WhoIs_RipeDB_Search","YETI"],"connectors_running":["YETI"]},{"job_id":264,"status":"accepted","warnings":[],"analyzers_running":["Classic_DNS","CryptoScamDB_CheckAPI","Darksearch_Query","FireHol_IPList","FileScan_Search","GoogleWebRisk","GreyNoiseCommunity","InQuest_IOCdb","InQuest_REPdb","InQuest_DFI","MalwareBazaar_Google_Observable","Mnemonic_PassiveDNS","Phishstats","Pulsedive_Active_IOC","Robtex_IP_Query","Robtex_Reverse_PDNS_Query","Stratosphere_Blacklist","TalosReputation","ThreatFox","Threatminer_PDNS","Threatminer_Reports_Tagging","TorProject","URLhaus","UrlScan_Search","WhoIs_RipeDB_Search","YETI"],"connectors_running":["YETI"]}]}`
@@ -210,7 +208,31 @@ func TestCreateFileAnalysis(t *testing.T) {
 }
 
 func TestCreateFilesPlaybookAnalysis(t *testing.T) {
-	playbookAnalysisJsonString := ` {'results': [{'job_id': 3003, 'analyzers_running': ['ClamAV', 'Cymru_Hash_Registry_Get_File', 'File_Info', 'HashLookupServer_Get_File', 'MalwareBazaar_Get_File', 'Strings_Info', 'YARAify_File_Search', 'Yara'], 'connectors_running': [], 'visualizers_running': [], 'playbook_running': 'Sample_Static_Analysis', 'investigation': None, 'status': 'accepted', 'already_exists': True}], 'count': 1}`
+	playbookAnalysisJsonString := `{
+  "results": [
+    {
+      "job_id": 3003,
+      "analyzers_running": [
+        "ClamAV",
+        "Cymru_Hash_Registry_Get_File",
+        "File_Info",
+        "HashLookupServer_Get_File",
+        "MalwareBazaar_Get_File",
+        "Strings_Info",
+        "YARAify_File_Search",
+        "Yara"
+      ],
+      "connectors_running": [],
+      "visualizers_running": [],
+      "playbook_running": "Sample_Static_Analysis",
+      "investigation": null,
+      "status": "accepted",
+      "already_exists": true
+    }
+  ],
+  "count": 1
+}
+`
 	playbookAnalysisResponse := gointelowl.MultipleAnalysisResponse{}
 	if unmarshalError := json.Unmarshal([]byte(playbookAnalysisJsonString), &playbookAnalysisResponse); unmarshalError != nil {
 		t.Fatalf("Error: %s", unmarshalError)
@@ -230,8 +252,8 @@ func TestCreateFilesPlaybookAnalysis(t *testing.T) {
 	}
 	playbookFileParams := &gointelowl.FilePlaybookAnalysisParams{
 		BasicAnalysisParams: basicAnalysisParams,
-		PlaybookRequested: "Sample_Static_Analysis",
-		File:               file,
+		PlaybookRequested:   "Sample_Static_Analysis",
+		File:                file,
 	}
 	testCases := make(map[string]TestData)
 	testCases["simple"] = TestData{
@@ -259,7 +281,6 @@ func TestCreateFilesPlaybookAnalysis(t *testing.T) {
 	}
 
 }
-
 
 func TestCreateMultipleFilesAnalysis(t *testing.T) {
 	multiAnalysisJsonString := `{"count":2,"results":[{"job_id":270,"status":"accepted","warnings":[],"analyzers_running":["File_Info"],"connectors_running":["YETI"]},{"job_id":271,"status":"accepted","warnings":[],"analyzers_running":["File_Info"],"connectors_running":["YETI"]}]}`
